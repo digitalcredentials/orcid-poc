@@ -1,8 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-
-
+import { verifyCredential } from '@digitalcredentials/verifier-core';
+import { knownDIDRegistries } from '@/data/knownRegistries';
 const FormSchema = z.object({
   vcText: z.string().trim()
     .min(1, { message: "You must provide a Verifiable Credential." })
@@ -36,8 +36,8 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
 
   try {
     // validate VC
-         await validateVC(validatedFields.data.vcText)
-         // and here is where we'll send it off to ORCID
+    await validateVC(validatedFields.data.vcText)
+    // and here is where we'll send it off to ORCID
    
   } catch (error) {
     console.log(error)
@@ -53,8 +53,10 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   return {...data, success: true};
 }
 
-async function validateVC(vcText:string) {
-    // here is where the vc will be validated
+async function validateVC(credential:string) {
+    const result = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
+    console.log("the result")
+    console.log(result)
 }
 
 
