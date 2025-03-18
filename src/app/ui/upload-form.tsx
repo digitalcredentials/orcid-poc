@@ -7,11 +7,26 @@ import {
 import { Button } from '@/app/ui/button';
 import { submitVC, State } from '@/app/lib/uploadAction';
 import { useActionState, useState } from 'react';
+import { handleFileUpload } from '../lib/handleFileUpload';
 
 export default function UploadForm() {
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(submitVC, initialState);
   const [success, setSuccess] = useState(false)
+  const [credential, setCredential] = useState<any>(undefined);
+  
+
+  function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
+    console.log("file was dropped");
+    e.stopPropagation();
+    e.preventDefault();
+    handleFileUpload(e.dataTransfer.items[0].getAsFile(), setCredential)
+  }
+
+  function handleBrowse(e: React.ChangeEvent<HTMLInputElement>) {
+    // console.log(e);
+    handleFileUpload(e.target.files !== null ? e.target.files[0] : null, setCredential);
+  }
 
   return (
     <div>
@@ -40,6 +55,24 @@ export default function UploadForm() {
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
+
+          <div
+          className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+          onDrop={handleFileDrop}
+          onDragOver={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <div className="">
+            Drag and drop a file here or 
+          <label className="">
+            <input type='file' onChange={handleBrowse}/>
+            <span className="">browse</span>
+          </label>
+          </div>
+          <span className="">Supports JSON</span>
+        </div>
+
 
           <div id="vcText-error" aria-live="polite" aria-atomic="true">
             {state.errors?.vcText &&
