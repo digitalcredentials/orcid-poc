@@ -53,7 +53,8 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   return {...data, success: true};
 }
 
-async function validateVC(credential:string) {
+async function validateVC(vcText:string) {
+    const credential = JSON.parse(vcText)
     const result = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
     console.log("the result")
     console.log(result)
