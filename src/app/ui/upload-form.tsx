@@ -24,7 +24,6 @@ export default function UploadForm() {
   }
 
   function handleBrowse(e: React.ChangeEvent<HTMLInputElement>) {
-    // console.log(e);
     handleFileUpload(e.target.files !== null ? e.target.files[0] : null, setCredential);
   }
 
@@ -57,20 +56,19 @@ export default function UploadForm() {
           </div>
 
           <div
-          className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+          className="flex flex-col max-w-[500px] w-full h-[86px] justify-center mt-[24px] text-center opacity-50 rounded-lg border-2 border-dashed border-black"
           onDrop={handleFileDrop}
           onDragOver={(e) => {
             e.preventDefault();
           }}
         >
-          <div className="">
+          <div className="text-base text-black inline-block">
             Drag and drop a file here or 
-          <label className="">
-            <input type='file' onChange={handleBrowse}/>
-            <span className="">browse</span>
+          <label className="inline">
+            <input className="file:hidden inline" type='file' onChange={handleBrowse}/>
+            <span className="text-black underline m-0 inline">browse</span>
           </label>
           </div>
-          <span className="">Supports JSON</span>
         </div>
 
 
