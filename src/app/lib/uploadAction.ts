@@ -3,6 +3,9 @@
 import { z } from 'zod';
 import { verifyCredential } from '@digitalcredentials/verifier-core';
 import { knownDIDRegistries } from '@/data/knownRegistries';
+import { cookies } from 'next/headers'
+import { getORCIDAccessToken } from './tokenStore';
+import { educationPostTemplate } from '@/data/educationPostTemplate';
 const FormSchema = z.object({
   vcText: z.string().trim()
     .min(1, { message: "You must provide a Verifiable Credential." })
@@ -30,14 +33,13 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: "Missing Fields - complete them so we can get you your credential!"
+      message: "Missing Fields - complete them so we can get your credential added!"
     };
   }
 
   try {
     // validate VC
     await validateVC(validatedFields.data.vcText)
-    // and here is where we'll send it off to ORCID
    
   } catch (error) {
     console.log(error)
@@ -47,17 +49,45 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
       ...data
     };
   }
-  // const orcidSubmission = getORCIDPayload(validatedFields.data.vcText)  
-  // will need to temporarily store the payload for later submission to API after authenticating.
-  // and somewhere around here we'll redirect to the ORCID auth page.
-  return {...data, success: true};
+  const orcidFriendlyData = transformToORCIDFormat(validatedFields.data.vcText);
+  const success = await postDataToORCID(orcidFriendlyData)  
+
+   // will need to pull success (of some sort) out of orcidSubmissionResult
+  return {...data, success};
+}
+
+function transformToORCIDFormat(vc:any) : any{
+  // TODO populate template from VC
+  // TODO throw error if not correct data
+  return educationPostTemplate;
+}
+
+
+async function postDataToORCID(orcidFriendlyData:any) {
+
+    const cookieStore = await cookies()
+    const sessionId : any = cookieStore.get('orcid')
+    const accessTokenRecord = await getORCIDAccessToken(sessionId)
+ 
+  const updateResponse = await fetch(
+    `https://api.sandbox.orcid.org/v3.0/${accessTokenRecord.orcid}/education`,  // get right endpoint from: https://github.com/ORCID/orcid-model/blob/master/src/main/resources/record_3.0/README.md#add-record-items
+    {
+      method: 'POST',  
+      headers: {
+        "Content-Type": 'application/vnd.orcid+xml',
+        "Authorization": `Bearer ${accessTokenRecord.access_token}`,
+      },
+      body: orcidFriendlyData
+    },
+  );
+
+  return updateResponse.ok
 }
 
 async function validateVC(vcText:string) {
     const credential = JSON.parse(vcText)
     const result = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
-    console.log("the result")
-    console.log(result)
+    // TODO throw error if validation fails - but return whole result object so we can communicate problem to end user
 }
 
 
