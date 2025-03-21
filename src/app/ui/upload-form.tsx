@@ -62,11 +62,11 @@ export default function UploadForm() {
             e.preventDefault();
           }}
         >
-          <div className="text-base text-black inline-block">
+          <div className="text-base text-black">
             Drag and drop a file here or 
-          <label className="inline">
-            <input className="file:hidden inline" type='file' onChange={handleBrowse}/>
-            <span className="text-black underline m-0 inline">browse</span>
+          <label>
+            <input className="file:hidden" type='file' onChange={handleBrowse}/>
+            <span className="text-black underline m-0">browse</span>
           </label>
           </div>
         </div>
