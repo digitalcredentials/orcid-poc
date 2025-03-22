@@ -1,3 +1,5 @@
+'use server';
+
 import { oauth_orcid } from "./orcidOauth";
 import { redirect } from "next/navigation";
 
@@ -10,7 +12,5 @@ export async function orcidAuthAction() {
     };
     const url = new URL(oauth_orcid.authorizeEndpoint);
     url.search = new URLSearchParams(query).toString();
-    console.log("the uri:")
-    console.log(url.toString())
     redirect(url.toString());
 }

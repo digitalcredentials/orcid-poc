@@ -7,4 +7,6 @@ export const oauth_orcid = {
     scopes: "/activities/update",
   };
 
+  console.log(oauth_orcid)
+
   // https://sandbox.orcid.org/oauth/authorize?client_id=[Your client ID]&response_type=code&scope=/read-limited&redirect_uri=[Your landing page]
