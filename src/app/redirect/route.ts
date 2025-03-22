@@ -13,9 +13,6 @@ export async function GET(request: NextRequest) {
     const code = searchParams.get('code') as any  // gets the authorization code sent from ORCID    
     const accessToken = await exchangeCodeForAccessToken(code) as any
 
-    console.log("the accessToken just after exchange:")
-    console.log(accessToken);
-
     const sessionId = await storeORCIDAccessTokenInSession(accessToken)
     const cookieStore = await cookies()
     const expires = new Date(Date.now() + 60 * 60 * 1000) // in one hour
@@ -44,9 +41,6 @@ async function exchangeCodeForAccessToken(code: string) {
         redirect_uri: oauth_orcid.redirect_uri,
     };
 
-    console.log("the params to be sent on the code exchange:")
-    console.log(JSON.stringify(params))
-
     // Exchange code with a token
     const response = await fetch(oauth_orcid.codeExchangeEndpoint, {
         method: "POST",
@@ -56,7 +50,6 @@ async function exchangeCodeForAccessToken(code: string) {
         body: new URLSearchParams(params),
     });
 
-
     /*  
      data that should be returned:
     {"access_token":"f5af9f51-07e6-4332-8f1a-c0c11c1e3728","token_type":"bearer",
@@ -64,8 +57,6 @@ async function exchangeCodeForAccessToken(code: string) {
        "scope":"/read-limited","name":"Sofia Garcia","orcid":"0000-0001-2345-6789"}
       */
     const data = await response.json();
-    console.log("the response from the code exchange:")
-    console.log(data)
     // we store all the data so we can use not just the access token but also the name and orcid id in the UI
     // i.e, 'Hi Sofia Garcia! Let's get your credential added'
     return data;

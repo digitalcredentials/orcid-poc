@@ -68,6 +68,7 @@ async function postDataToORCID(orcidFriendlyData:any) {
     const sessionCookie : any = cookieStore.get('orcid')
     const sessionId = sessionCookie.value
     const accessTokenRecord = await getORCIDAccessToken(sessionId)
+    const orcidJSONData = JSON.stringify(orcidFriendlyData)
 
    const updateResponse = await fetch(
     `https://api.sandbox.orcid.org/v3.0/${accessTokenRecord.orcid}/education`,  // get right endpoint from: https://github.com/ORCID/orcid-model/blob/master/src/main/resources/record_3.0/README.md#add-record-items
@@ -77,7 +78,7 @@ async function postDataToORCID(orcidFriendlyData:any) {
         "Content-Type": 'application/vnd.orcid+json',
         "Authorization": `Bearer ${accessTokenRecord.access_token}`,
       },
-      body: orcidFriendlyData
+      body: orcidJSONData
     },
   ); 
   const responseData = await updateResponse.json();

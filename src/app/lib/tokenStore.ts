@@ -32,7 +32,7 @@ export const getORCIDAccessToken = async (sessionId:string) : Promise<any> => {
 export const getAllTokens = async () => {
     let result = ''
     for await (const [key, value] of (getKeyv() as any).iterator()) {
-        console.log(key, value);
+       // console.log(key, value);
         result = `${result} ${key}:${value}`
       };  
       return result;
