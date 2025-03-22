@@ -3,7 +3,13 @@
 import Keyv from 'keyv'
 import crypto from 'crypto'
 
-const keyv = new Keyv<string>()
+// set keyv instance as global to share across requests
+const getKeyv = () => {
+    if (! (global as any).keyv) {
+        (global as any).keyv = new Keyv<string>()
+    }
+    return (global as any).keyv
+}
 
 export const storeORCIDAccessToken = async (token:object) => {
     // note that the 'token' we store is actually the full
@@ -15,23 +21,23 @@ export const storeORCIDAccessToken = async (token:object) => {
         "scope":"/read-limited","name":"Sofia Garcia","orcid":"0000-0001-2345-6789"} */
 
     const sessionId = crypto.randomUUID()
-    await keyv.set(sessionId, token)
+    await getKeyv().set(sessionId, token)
     return sessionId
 }
 
 export const getORCIDAccessToken = async (sessionId:string) : Promise<any> => {   
-    return await keyv.get(sessionId) as any
+    return await getKeyv().get(sessionId) as any
 }
 
 export const getAllTokens = async () => {
     let result = ''
-    for await (const [key, value] of (keyv as any).iterator()) {
+    for await (const [key, value] of (getKeyv() as any).iterator()) {
         console.log(key, value);
         result = `${result} ${key}:${value}`
       };  
       return result;
 }
 
-export const clearAllTokens = async () => {
+/* export const clearAllTokens = async () => {
     await keyv.clear()
-}
+} */
