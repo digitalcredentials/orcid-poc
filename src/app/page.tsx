@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { Button } from '@/app/ui/button';
 import { orcidAuthAction } from '@/app/lib/orcidAuthAction';
-import { useState } from "react";
 
 export default function Home() {
   return (

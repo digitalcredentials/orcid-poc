@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { verifyCredential } from '@digitalcredentials/verifier-core';
 import { knownDIDRegistries } from '@/data/knownRegistries';
 import { cookies } from 'next/headers'
-import { getORCIDAccessToken } from './tokenStore';
+import { getORCIDAccessToken, getAllTokens } from './tokenStore';
 import { educationPostTemplate } from '@/data/educationPostTemplate';
 const FormSchema = z.object({
   vcText: z.string().trim()
@@ -64,24 +64,28 @@ function transformToORCIDFormat(vc:any) : any{
 
 
 async function postDataToORCID(orcidFriendlyData:any) {
-
+    getAllTokens() // this prints them to the console.
     const cookieStore = await cookies()
-    const sessionId : any = cookieStore.get('orcid')
+    const sessionCookie : any = cookieStore.get('orcid')
+    const sessionId = sessionCookie.value
+    console.log("the session id submitted in the orcid cookie on the uploadaction:")
+    console.log(sessionId)
     const accessTokenRecord = await getORCIDAccessToken(sessionId)
- 
-  const updateResponse = await fetch(
+    console.log("the retrieved access token record from the store")
+    console.log(accessTokenRecord)
+ /*  const updateResponse = await fetch(
     `https://api.sandbox.orcid.org/v3.0/${accessTokenRecord.orcid}/education`,  // get right endpoint from: https://github.com/ORCID/orcid-model/blob/master/src/main/resources/record_3.0/README.md#add-record-items
     {
       method: 'POST',  
       headers: {
-        "Content-Type": 'application/vnd.orcid+xml',
+        "Content-Type": 'application/vnd.orcid+json',
         "Authorization": `Bearer ${accessTokenRecord.access_token}`,
       },
       body: orcidFriendlyData
     },
-  );
+  ); */
 
-  return updateResponse.ok
+  return  true //updateResponse.ok
 }
 
 async function validateVC(vcText:string) {

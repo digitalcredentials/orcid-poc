@@ -12,56 +12,63 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const code = searchParams.get('code') as any  // gets the authorization code sent from ORCID    
     const accessToken = await exchangeCodeForAccessToken(code) as any
+
+    console.log("the accessToken just after exchange:")
+    console.log(accessToken);
+
     const sessionId = await storeORCIDAccessTokenInSession(accessToken)
     const cookieStore = await cookies()
     const expires = new Date(Date.now() + 60 * 60 * 1000) // in one hour
 
-  cookieStore.set({
-    name: 'orcid',
-    value: sessionId,
-    httpOnly: true,
-    expires,
-    secure: false,   // secure only works with https, so change this later
-    sameSite: 'strict',  // only allow cookie use for requests to same origin
-    path: '/',  // any path under the root submits the cookie
-  })
+    cookieStore.set({
+        name: 'orcid',
+        value: sessionId,
+        httpOnly: true,
+        expires,
+        secure: false,   // secure only works with https, so change this later
+        sameSite: 'strict',  // only allow cookie use for requests to same origin
+        path: '/',  // any path under the root submits the cookie
+    })
 
-  redirect('/upload')
+    redirect('/upload')
 }
 
-async function exchangeCodeForAccessToken(code:string) {
-    
-// setup the post request body
-const params = {
-    client_id: oauth_orcid.client_id,
-    client_secret: oauth_orcid.client_secret,
-    code: code,
-    grant_type: "authorization_code",
-    redirect_uri: oauth_orcid.redirect_uri,
-  };
+async function exchangeCodeForAccessToken(code: string) {
 
-  // Exchange code with a token
-  const response = await fetch(oauth_orcid.codeExchangeEndpoint, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(params),
-  });
+    // setup the post request body
+    const params = {
+        client_id: oauth_orcid.client_id,
+        client_secret: oauth_orcid.client_secret,
+        code: code,
+        grant_type: "authorization_code",
+        redirect_uri: oauth_orcid.redirect_uri,
+    };
 
-  if (!response.ok) {
-    // Do something
-  }
- /*  
-  data returned:
- {"access_token":"f5af9f51-07e6-4332-8f1a-c0c11c1e3728","token_type":"bearer",
-    "refresh_token":"f725f747-3a65-49f6-a231-3e8944ce464d","expires_in":631138518,
-    "scope":"/read-limited","name":"Sofia Garcia","orcid":"0000-0001-2345-6789"}
-   */
-  const data = await response.json();
-  // we store all the data so we can use not just the access token but also the name and orcid id in the UI
-  // i.e, 'Hi Sofia Garcia! Let's get your credential added'
-return data;
+    console.log("the params to be sent on the code exchange:")
+    console.log(JSON.stringify(params))
+
+    // Exchange code with a token
+    const response = await fetch(oauth_orcid.codeExchangeEndpoint, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams(params),
+    });
+
+
+    /*  
+     data that should be returned:
+    {"access_token":"f5af9f51-07e6-4332-8f1a-c0c11c1e3728","token_type":"bearer",
+       "refresh_token":"f725f747-3a65-49f6-a231-3e8944ce464d","expires_in":631138518,
+       "scope":"/read-limited","name":"Sofia Garcia","orcid":"0000-0001-2345-6789"}
+      */
+    const data = await response.json();
+    console.log("the response from the code exchange:")
+    console.log(data)
+    // we store all the data so we can use not just the access token but also the name and orcid id in the UI
+    // i.e, 'Hi Sofia Garcia! Let's get your credential added'
+    return data;
 
 
 }

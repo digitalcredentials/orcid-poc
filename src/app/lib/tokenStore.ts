@@ -16,7 +16,7 @@ export const storeORCIDAccessToken = async (token:object) => {
 
     const sessionId = crypto.randomUUID()
     await keyv.set(sessionId, token)
-    return await getAllTokens();
+    return sessionId
 }
 
 export const getORCIDAccessToken = async (sessionId:string) : Promise<any> => {   
