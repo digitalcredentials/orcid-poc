@@ -7,9 +7,17 @@ import {
 import { Button } from '@/app/ui/button';
 import { submitVC, State } from '@/app/lib/uploadAction';
 import { useActionState, useState } from 'react';
-import { handleFileUpload } from '../lib/handleFileUpload';
-
+import { handleFileUpload } from '@/app/lib/handleFileUpload';
+import { useSearchParams } from 'next/navigation'
+ 
 export default function UploadForm() {
+
+  
+  const searchParams = useSearchParams()
+ 
+  const name = searchParams.get('name')
+  const orcid = searchParams.get('orcid')
+
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(submitVC, initialState);
   const [success, setSuccess] = useState(false)
@@ -34,7 +42,9 @@ export default function UploadForm() {
 
     <form action={formAction} id="blah">
       <div className="rounded-md bg-gray-50 p-2 md:p-6">
-       
+      <div className="text-base text-black">
+      Thank you {name}, you can now upload your credential to the ORCID {orcid}.
+      </div>
   {/* Text area into which to paste the credential */}
         <div className="mb-1 md:mb-4">
           <label htmlFor="vcText" className="mb-2 block text-sm font-medium">
