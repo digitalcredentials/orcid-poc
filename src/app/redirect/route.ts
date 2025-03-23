@@ -27,7 +27,8 @@ export async function GET(request: NextRequest) {
         path: '/',  // any path under the root submits the cookie
     })
 
-    redirect('/upload')
+
+    redirect(`/upload?name=${accessToken.name}&orcid=${accessToken.orcid}`)
 }
 
 async function exchangeCodeForAccessToken(code: string) {
