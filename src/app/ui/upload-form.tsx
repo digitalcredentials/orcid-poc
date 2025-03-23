@@ -43,7 +43,7 @@ export default function UploadForm() {
     <form action={formAction} id="blah">
       <div className="rounded-md bg-gray-50 p-2 md:p-6">
       <div className="text-base text-black">
-      Thank you {name}, you can now upload your credential to the ORCID {orcid}.
+      Thank you {name}, you are now authorized to upload your credential to your ORCID ({orcid}) profile.
       </div>
   {/* Text area into which to paste the credential */}
         <div className="mb-1 md:mb-4">
@@ -58,6 +58,7 @@ export default function UploadForm() {
                 cols={40}
                 rows={10}
                 placeholder="Paste your verifiable credential here."
+                defaultValue={credential}
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="vcTest-error"
               />

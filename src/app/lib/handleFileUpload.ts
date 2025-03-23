@@ -4,7 +4,7 @@ export function handleFileUpload(file: File | null, setCredential: Function): an
   reader.onload = (e) => {
     let text = e.target?.result as string ?? '';
     try {
-      setCredential(JSON.parse(text));
+      setCredential(text);
     } catch (e) {
       console.log("couldn't parse json")
       console.log(e)
