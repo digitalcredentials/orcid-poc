@@ -1,6 +1,6 @@
- export const educationPostTemplate = {
+const educationPostTemplate = {
     "department-name": "Philosophy, Politics, and Economics",
-    "role-title": "Degree awarded",
+    "role-title": "Bachelor of Arts",
     "start-date": {
       "year": {
         "value": "2021"
@@ -36,34 +36,11 @@
       }
     },
     "url": {
-      "value": "http://tempuri.org"
-    },
-    "external-ids": {
-      "external-id": [
-        {
-          "external-id-type": "grant_number",
-          "external-id-value": "external-identifier-value",
-          "external-id-url": {
-            "value": "http://tempuri.org"
-          },
-          "external-id-relationship": "self"
-        },
-        {
-          "external-id-type": "proposal-id",
-          "external-id-value": "external-identifier-value2",
-          "external-id-url": {
-            "value": "http://tempuri.org/2"
-          },
-          "external-id-relationship": "self"
-        },
-        {
-          "external-id-type": "grant_number",
-          "external-id-value": "external-identifier-value2",
-          "external-id-url": {
-            "value": "http://tempuri.org/2"
-          },
-          "external-id-relationship": "part-of"
-        }
-      ]
+      "value": "https://www.ox.ac.uk"
     }
+  }
+
+  export function populateORCIDTemplateFromVC(vc:any) : any{
+    const templateCopy = JSON.parse(JSON.stringify(educationPostTemplate));
+    
   }

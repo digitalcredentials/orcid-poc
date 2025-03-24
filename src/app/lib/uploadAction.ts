@@ -5,7 +5,7 @@ import { verifyCredential } from '@digitalcredentials/verifier-core';
 import { knownDIDRegistries } from '@/data/knownRegistries';
 import { cookies } from 'next/headers'
 import { getORCIDAccessToken } from './tokenStore';
-import { educationPostTemplate } from '@/data/educationPostTemplate';
+import { populateORCIDTemplateFromVC } from '@/data/educationPostTemplate';
 const FormSchema = z.object({
   vcText: z.string().trim()
     .min(1, { message: "You must provide a Verifiable Credential." })
@@ -49,19 +49,12 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
       ...data
     };
   }
-  const orcidFriendlyData = transformToORCIDFormat(validatedFields.data.vcText);
+  const orcidFriendlyData = populateORCIDTemplateFromVC(validatedFields.data.vcText);
   const success = await postDataToORCID(orcidFriendlyData)  
 
    // will need to pull success (of some sort) out of orcidSubmissionResult
   return {...data, success};
 }
-
-function transformToORCIDFormat(vc:any) : any{
-  // TODO populate template from VC
-  // TODO throw error if not correct data
-  return educationPostTemplate;
-}
-
 
 async function postDataToORCID(orcidFriendlyData:any) {
     const cookieStore = await cookies()
