@@ -1,14 +1,14 @@
 
   export function populateORCIDTemplateFromVC(vc:any) : any {
     const organization = getIssuerDetails(vc.issuer.id)
-    const startDate = {year: {value: "2020"}, month: {value: "09"}, day: {value: "01"} }
-    const endDate = {year: {value: "2024"}, month: {value: "06"}, day: {value: "30"} }
+   // const startDate = {year: {value: "2020"}, month: {value: "09"}, day: {value: "01"} }
+   // const endDate = {year: {value: "2024"}, month: {value: "06"}, day: {value: "30"} }
     const result = JSON.stringify({
-      'department-name': 'Computer Science',
+      'department-name': vc.credentialSubject.degree.program,
       'role-title': vc.credentialSubject.degree.name,
       organization,
-      'start-date': startDate,
-      'end-date': endDate
+      'start-date': vc.startDate,
+      'end-date': vc.endDate
     })
     return result;
 
