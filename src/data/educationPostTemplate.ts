@@ -7,8 +7,8 @@
       'department-name': vc.credentialSubject.degree.program,
       'role-title': vc.credentialSubject.degree.name,
       organization,
-      'start-date': vc.startDate,
-      'end-date': vc.endDate
+      'start-date': vc.credentialSubject.degree.startDate,
+      'end-date': vc.credentialSubject.degree.endDate
     })
     return result;
 

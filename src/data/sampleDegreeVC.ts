@@ -18,14 +18,14 @@ export const sampleBachelors = {
             "name": "Bachelor of Science",
             "program": "Computer Science",
             "startDate": {
-                "year": "2021",
-                "month": "09",
-                "day": "03"
+                "year": {"value": "2021"},
+                "month": {"value": "02"},
+                "day": {"value": "07"},
             },
             "endDate": {
-                "year": "2024",
-                "month": "06",
-                "day": "29"
+                "year": {"value": "2025"},
+                "month": {"value": "03"},
+                "day": {"value": "22"},
             },
             "conferred": {
                 "year": "2024",
@@ -36,10 +36,10 @@ export const sampleBachelors = {
     },
     "proof": {
         "type": "Ed25519Signature2020",
-        "created": "2025-03-25T22:04:43Z",
+        "created": "2025-03-26T11:16:32Z",
         "verificationMethod": "did:key:z6MknNQD1WHLGGraFi6zcbGevuAgkVfdyCdtZnQTGWVVvR5Q#z6MknNQD1WHLGGraFi6zcbGevuAgkVfdyCdtZnQTGWVVvR5Q",
         "proofPurpose": "assertionMethod",
-        "proofValue": "z5en5Bkc6kdFZ6pu7SRXwV5pJGNw5GAPx3vFqx8Nne6eQkDU7Tz6EgHhHawET9fFZwVN4dHX6rsQTBdw5CUXCvd16"
+        "proofValue": "z4L1D9PC4qxaRpfWYghfEfxATWbrFSAMjFqQ6HBdK8aNq2S9eKFCoHQ6YX8MiPKXx7CPgYMG6fp4xVGMsTxcZk5AF"
     }
 }
 
