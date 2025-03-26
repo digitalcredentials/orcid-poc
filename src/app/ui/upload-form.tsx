@@ -37,7 +37,7 @@ export default function UploadForm() {
   }
 
   function useSample() {
-    setCredential(JSON.stringify(sampleBachelors,null,2))
+    setCredential(JSON.stringify(sampleBachelors, null, 2))
   }
 
   return (
@@ -52,9 +52,7 @@ export default function UploadForm() {
             </div>
             {/* Text area into which to paste the credential */}
             <div className="mb-1 md:mb-4">
-              <label htmlFor="vcText" className="mb-2 block text-sm font-medium">
-                Name
-              </label>
+
               <div className="relative mt-1 md:mt-2 rounded-md">
                 <div className="relative">
                   <textarea
@@ -67,33 +65,32 @@ export default function UploadForm() {
                     className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                     aria-describedby="vcTest-error"
                   />
-                  <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
                 </div>
               </div>
 
-              <div className="flex flex-row gap-[32px] items-center">
+              <div className="flex flex-row gap-[32px] items-center mt-[24px]">
+              <div className="w-full">
                 <div
-                  className="basis-8/12  w-full h-[100px] justify-center mt-[24px] text-center opacity-50 rounded-lg border-2 border-dashed border-black"
+                  className="h-[100px] flex flex-col justify-center text-center opacity-50 rounded-lg border-2 border-dashed border-black"
                   onDrop={handleFileDrop}
                   onDragOver={(e) => {
                     e.preventDefault();
                   }}
                 >
-                  <div className="text-base text-black">
-                    Drag and drop a file here
-                  </div>
+                    <label>
+                      <div className="text-base text-black">
+                        Drag and drop a file or click <span className='underline'>here</span> to choose file
+                      </div>
+                      <input className="file:hidden" type='file' onChange={handleBrowse} />
+                    </label>
+                 
+                </div>
                 </div>
 
-                <div className="basis-2/12 justify-center">
-                <label>
-                  <input className="file:hidden" type='file' onChange={handleBrowse} />
-                  <Button className="text-black m-0">Choose file</Button>
-                </label>
-                </div>
 
 
-                <div className="basis-3/12 justify-center w-full">
-                  <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" type='button'  onClick={useSample}>Use Sample Credential</Button>
+                <div className="justify-center">
+                  <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" type='button' onClick={useSample}>Use Sample Credential</Button>
                 </div>
               </div>
 
