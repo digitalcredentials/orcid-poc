@@ -14,17 +14,24 @@ export const sampleBachelors = {
     "validFrom": "2010-01-01T00:00:00Z",
     "credentialSubject": {
         "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
-        "degree": "Bachelor of Science",
-        "program": "Computer Science",
-        "startDate": {
-            "year": "2021",
-            "month": "09",
-            "day": "03"
-        },
-        "endDate": {
-            "year": "2024",
-            "month": "06",
-            "day": "29"
+        "degree": {
+            "name": "Bachelor of Science",
+            "program": "Computer Science",
+            "startDate": {
+                "year": "2021",
+                "month": "09",
+                "day": "03"
+            },
+            "endDate": {
+                "year": "2024",
+                "month": "06",
+                "day": "29"
+            },
+            "conferred": {
+                "year": "2024",
+                "month": "09",
+                "day": "04"
+            }
         }
     },
     "proof": {
