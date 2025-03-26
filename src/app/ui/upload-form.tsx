@@ -1,9 +1,5 @@
 'use client';
 
-import {
-  UserCircleIcon
-} from '@heroicons/react/24/outline';
-
 import { Button } from '@/app/ui/button';
 import { submitVC, State } from '@/app/lib/uploadAction';
 import { useActionState, useState } from 'react';
@@ -22,11 +18,10 @@ export default function UploadForm() {
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(submitVC, initialState);
   const [success, setSuccess] = useState(false)
-  const [credential, setCredential] = useState<any>(undefined);
+  const [credential, setCredential] = useState('');
 
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
-    console.log("file was dropped");
     e.stopPropagation();
     e.preventDefault();
     handleFileUpload(e.dataTransfer.items[0].getAsFile(), setCredential)

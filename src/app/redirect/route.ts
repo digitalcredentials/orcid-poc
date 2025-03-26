@@ -10,8 +10,9 @@ import { oauth_orcid } from "../lib/orcidOauth"
  */
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
-    const code = searchParams.get('code') as any  // gets the authorization code sent from ORCID    
-    const accessToken = await exchangeCodeForAccessToken(code) as any
+    const code = searchParams.get('code')  // gets the authorization code sent from ORCID 
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any   
+    const accessToken = await exchangeCodeForAccessToken(code as any)
 
     const sessionId = await storeORCIDAccessTokenInSession(accessToken)
     const cookieStore = await cookies()

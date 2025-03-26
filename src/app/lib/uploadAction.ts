@@ -58,8 +58,10 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   return {...data, success};
 }
 
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 async function postDataToORCID(postableORCIDData:any) {
     const cookieStore = await cookies()
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const sessionCookie : any = cookieStore.get('orcid')
     const sessionId = sessionCookie.value
     const accessTokenRecord = await getORCIDAccessToken(sessionId)
@@ -83,7 +85,7 @@ async function postDataToORCID(postableORCIDData:any) {
 
 async function validateVC(vcText:string) {
     const credential = JSON.parse(vcText)
-    const result = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
+    await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
     return credential // TODO throw error if validation fails - but return whole result object so we can communicate problem to end user
 }
 

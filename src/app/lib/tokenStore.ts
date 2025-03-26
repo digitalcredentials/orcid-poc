@@ -5,9 +5,12 @@ import crypto from 'crypto'
 
 // set keyv instance as global to share across requests
 const getKeyv = () => {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     if (! (global as any).keyv) {
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         (global as any).keyv = new Keyv<string>()
     }
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     return (global as any).keyv
 }
 
@@ -24,13 +27,15 @@ export const storeORCIDAccessToken = async (token:object) => {
     await getKeyv().set(sessionId, token)
     return sessionId
 }
-
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export const getORCIDAccessToken = async (sessionId:string) : Promise<any> => {   
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     return await getKeyv().get(sessionId) as any
 }
 
 export const getAllTokens = async () => {
     let result = ''
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     for await (const [key, value] of (getKeyv() as any).iterator()) {
        // console.log(key, value);
         result = `${result} ${key}:${value}`

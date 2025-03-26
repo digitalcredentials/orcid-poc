@@ -1,4 +1,4 @@
-
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
   export function populateORCIDTemplateFromVC(vc:any) : any {
     const organization = getIssuerDetails(vc.issuer.id)
    // const startDate = {year: {value: "2020"}, month: {value: "09"}, day: {value: "01"} }
@@ -13,9 +13,10 @@
     return result;
 
   }
-
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
   function getIssuerDetails(issuerId:string) : any {
     // this will come from a registry
+    console.log(issuerId)
     return {
       "name": "Queen's University",
       "address": {
