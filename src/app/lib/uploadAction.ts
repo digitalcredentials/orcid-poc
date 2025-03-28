@@ -45,8 +45,9 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   } catch (error) {
     console.log(error)
     return {
-      message: 'Error: Failed to validate.',
+      message: (error as any).toString(),
       success: false,
+      errors: {vcText: ["The credential couldn't be verified. Please try again."]},
       ...data
     };
   }
@@ -85,7 +86,11 @@ async function postDataToORCID(postableORCIDData:any) {
 
 async function validateVC(vcText:string) {
     const credential = JSON.parse(vcText)
-    await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
+    const verificationResult = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
+    if (! verificationResult.log?.every((result:any)=>{ return result.valid})) {
+      const errorMessage = verificationResult.errors ? verificationResult.errors.map((error:any)=>error.message).join('---') : "The credential couldn't be verified."
+      throw new Error(errorMessage)
+    }
     return credential // TODO throw error if validation fails - but return whole result object so we can communicate problem to end user
 }
 
