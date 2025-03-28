@@ -9,7 +9,6 @@ import { sampleBachelors } from '@/data/sampleDegreeVC';
 
 export default function UploadForm() {
 
-
   const searchParams = useSearchParams()
 
   const name = searchParams.get('name')

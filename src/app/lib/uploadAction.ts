@@ -45,6 +45,7 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
   } catch (error) {
     console.log(error)
     return {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       message: (error as any).toString(),
       success: false,
       errors: {vcText: ["The credential couldn't be verified. Please try again."]},
@@ -87,7 +88,9 @@ async function postDataToORCID(postableORCIDData:any) {
 async function validateVC(vcText:string) {
     const credential = JSON.parse(vcText)
     const verificationResult = await verifyCredential({ credential, knownDIDRegistries, reloadIssuerRegistry: true })
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     if (! verificationResult.log?.every((result:any)=>{ return result.valid})) {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       const errorMessage = verificationResult.errors ? verificationResult.errors.map((error:any)=>error.message).join('---') : "The credential couldn't be verified."
       throw new Error(errorMessage)
     }
