@@ -3,9 +3,8 @@
 import { z } from 'zod';
 import { verifyCredential } from '@digitalcredentials/verifier-core';
 import { knownDIDRegistries } from '@/data/knownRegistries';
-import { cookies } from 'next/headers'
-import { getORCIDAccessToken } from './tokenStore';
 import { populateORCIDTemplateFromVC } from '@/data/educationPostTemplate';
+import { getStoredAccessTokenRecord } from './accessTokens';
 const FormSchema = z.object({
   vcText: z.string().trim()
     .min(1, { message: "You must provide a Verifiable Credential." })
@@ -62,12 +61,8 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 async function postDataToORCID(postableORCIDData:any) {
-    const cookieStore = await cookies()
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    const sessionCookie : any = cookieStore.get('orcid')
-    const sessionId = sessionCookie.value
-    const accessTokenRecord = await getORCIDAccessToken(sessionId)
-
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    const accessTokenRecord : any = await getStoredAccessTokenRecord();
    const updateResponse = await fetch(
     `https://api.sandbox.orcid.org/v3.0/${accessTokenRecord.orcid}/education`,  // get right endpoint from: https://github.com/ORCID/orcid-model/blob/master/src/main/resources/record_3.0/README.md#add-record-items
     {
@@ -81,7 +76,7 @@ async function postDataToORCID(postableORCIDData:any) {
   ); 
   
   console.log("update response from Orcid:")
-  console.log(updateResponse)
+  console.log(JSON.stringify(updateResponse,null,2))
   return  true //updateResponse.ok
 }
 

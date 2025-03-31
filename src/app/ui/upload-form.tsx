@@ -2,9 +2,10 @@
 
 import { Button } from '@/app/ui/button';
 import { submitVC, State } from '@/app/lib/uploadAction';
-import { useActionState, useState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import { redirect } from 'next/navigation'
 import { handleFileUpload } from '@/app/lib/handleFileUpload';
+import { verifyAccessToken } from '@/app/lib/accessTokens';
 import { useSearchParams } from 'next/navigation'
 import { sampleBachelors } from '@/data/sampleDegreeVC';
 
@@ -17,13 +18,24 @@ export default function UploadForm() {
 
   if (!name || !orcid) { redirect('/') }
 
-  //const loggedIn = await fetch('https://api.vercel.app/blog')
-
+  
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(submitVC, initialState);
   const [success, setSuccess] = useState(false)
   const [credential, setCredential] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
+  useEffect(() => {
+    async function verifyToken() {
+      const hasAccessToken = await verifyAccessToken()
+
+      if (!hasAccessToken) {
+        redirect('/')
+      }
+      setIsLoggedIn(true)
+    }
+    verifyToken()
+  }, [])
 
   function handleFileDrop(e: React.DragEvent<HTMLInputElement>) {
     e.stopPropagation();
@@ -38,6 +50,9 @@ export default function UploadForm() {
   function useSample() {
     setCredential(JSON.stringify(sampleBachelors, null, 2))
   }
+
+  if (!isLoggedIn) return <div>Confirming your ORCID account...</div>
+ 
 
   return (
     <div>
@@ -126,7 +141,7 @@ export default function UploadForm() {
           <br /><br />
           Your credential has been submitted!
           <br /><br />
-          You should momentarily be redirected to the ORCID login page.
+          Login to your ORCID account to confirm.
           <br /><br />
           <div className="mt-2 md:mt-6 flex justify-center md:gap-4">
             <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" onClick={() => { state.success = false; setSuccess(!success) }}>Cancel</Button>
