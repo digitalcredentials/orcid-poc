@@ -3,6 +3,7 @@
 import { Button } from '@/app/ui/button';
 import { submitVC, State } from '@/app/lib/uploadAction';
 import { useActionState, useState } from 'react';
+import { redirect } from 'next/navigation'
 import { handleFileUpload } from '@/app/lib/handleFileUpload';
 import { useSearchParams } from 'next/navigation'
 import { sampleBachelors } from '@/data/sampleDegreeVC';
@@ -13,6 +14,10 @@ export default function UploadForm() {
 
   const name = searchParams.get('name')
   const orcid = searchParams.get('orcid')
+
+  if (!name || !orcid) { redirect('/') }
+
+  //const loggedIn = await fetch('https://api.vercel.app/blog')
 
   const initialState: State = { message: null, errors: {} };
   const [state, formAction] = useActionState(submitVC, initialState);
