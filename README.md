@@ -22,7 +22,7 @@ So basically then, when setting up your ORCID sandbox account, use some arbitrar
 
 2. Go to our upload page:
 
-[https://orcid.dcconsortium.org](https://orcid/dcconsortium.org)
+[https://orcid.dcconsortium.org](https://orcid.dcconsortium.org)
 
 You'll be prompted to authorize with ORCID. Do that by clicking the 'Authorize with ORCID' button.
 
@@ -48,9 +48,9 @@ You should see a notification:
 
 'MIT - Digital Credentials Consortium has made changes to your ORCID record'
 
-Great! 
+Great! Click the notification to see details. 
 
-Click the notification to see details. You can also click the little person icon beside your ORCID user name in the top right corner, and then 'View my ORCID record' to see how it looks publicly.
+You can also click the little person icon beside your ORCID user name in the top right corner, and then 'View my ORCID record' to see how it looks publicly.
 
 ## Development
 
