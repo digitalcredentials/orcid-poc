@@ -62,7 +62,7 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
 async function postDataToORCID(postableORCIDData:any) {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const accessTokenRecord : any = await getStoredAccessTokenRecord();
-   const updateResponse = await fetch(
+  await fetch(
     `https://api.sandbox.orcid.org/v3.0/${accessTokenRecord.orcid}/education`,  // get right endpoint from: https://github.com/ORCID/orcid-model/blob/master/src/main/resources/record_3.0/README.md#add-record-items
     {
       method: 'POST',  
