@@ -52,7 +52,6 @@ export async function submitVC(prevState: State, formData: FormData) : Promise<S
     };
   }
   const postableORCIDData = populateORCIDTemplateFromVC(credential);
-
   const success = await postDataToORCID(postableORCIDData)  
 
    // will need to pull success (of some sort) out of orcidSubmissionResult
@@ -75,8 +74,6 @@ async function postDataToORCID(postableORCIDData:any) {
     },
   ); 
   
-  console.log("update response from Orcid:")
-  console.log(JSON.stringify(updateResponse,null,2))
   return  true //updateResponse.ok
 }
 
