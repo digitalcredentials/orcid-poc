@@ -7,8 +7,8 @@
       'department-name': vc.credentialSubject.achievement.fieldOfStudy,
       'role-title': vc.credentialSubject.achievement.name,
       organization,
-      'start-date': {'year': {'value': startDate.getFullYear().toString()}, 'month': {'value': startDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': startDate.getDate().toString().padStart(2, "0")}}, 
-      'end-date': {'year': {'value': endDate.getFullYear().toString()}, 'month': {'value': endDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': endDate.getDate().toString().padStart(2, "0")}}
+      'start-date': {'year': {'value': startDate.getUTCFullYear().toString()}, 'month': {'value': (startDate.getUTCMonth() + 1).toString().padStart(2, "0")}, 'day': {'value': startDate.getUTCDate().toString().padStart(2, "0")}}, 
+      'end-date': {'year': {'value': endDate.getUTCFullYear().toString()}, 'month': {'value': (endDate.getUTCMonth() + 1).toString().padStart(2, "0")}, 'day': {'value': endDate.getUTCDate().toString().padStart(2, "0")}}
     })
     return result;
   }
