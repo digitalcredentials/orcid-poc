@@ -144,7 +144,7 @@ export default function UploadForm() {
           Login to your ORCID account to confirm.
           <br /><br />
           <div className="mt-2 md:mt-6 flex justify-center md:gap-4">
-            <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" onClick={() => { state.success = false; setSuccess(!success) }}>Cancel</Button>
+            <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" onClick={() => { state.success = false; setSuccess(!success) }}>Submit Another</Button>
           </div>
         </div>
       }
