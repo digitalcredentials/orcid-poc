@@ -1,12 +1,14 @@
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   export function populateORCIDTemplateFromVC(vc:any) : any {
+    const startDate = new Date(vc.credentialSubject.activityStartDate)
+    const endDate = new Date(vc.credentialSubject.activityEndDate)
     const organization = getIssuerDetails(vc.issuer.id)
     const result = JSON.stringify({
       'department-name': vc.credentialSubject.achievement.fieldOfStudy,
       'role-title': vc.credentialSubject.achievement.name,
       organization,
-      'start-date': vc.credentialSubject.activityStartDate,
-      'end-date': vc.credentialSubject.activityEndDate
+      'start-date': {'year': {'value': startDate.getFullYear().toString()}, 'month': {'value': startDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': startDate.getDay().toString().padStart(2, "0")}}, 
+      'end-date': {'year': {'value': endDate.getFullYear().toString()}, 'month': {'value': endDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': endDate.getDay().toString().padStart(2, "0")}}
     })
     return result;
   }
