@@ -1,12 +1,14 @@
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   export function populateORCIDTemplateFromVC(vc:any) : any {
+    const startDate = new Date(vc.credentialSubject.activityStartDate)
+    const endDate = new Date(vc.credentialSubject.activityEndDate)
     const organization = getIssuerDetails(vc.issuer.id)
     const result = JSON.stringify({
-      'department-name': vc.credentialSubject.degree.program,
-      'role-title': vc.credentialSubject.degree.name,
+      'department-name': vc.credentialSubject.achievement.fieldOfStudy,
+      'role-title': vc.credentialSubject.achievement.name,
       organization,
-      'start-date': vc.credentialSubject.degree.startDate,
-      'end-date': vc.credentialSubject.degree.endDate
+      'start-date': {'year': {'value': startDate.getFullYear().toString()}, 'month': {'value': startDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': startDate.getDay().toString().padStart(2, "0")}}, 
+      'end-date': {'year': {'value': endDate.getFullYear().toString()}, 'month': {'value': endDate.getMonth().toString().padStart(2, "0")}, 'day': {'value': endDate.getDay().toString().padStart(2, "0")}}
     })
     return result;
   }
@@ -16,14 +18,14 @@
     // this will come from a registry
     console.log(issuerId)
     return {
-      "name": "Queen's University",
+      "name": "McMaster University",
       "address": {
-        "city": "Kingston",
+        "city": "Hamilton",
         "region": "Ontario",
         "country": "CA"
       },
       "disambiguated-organization": {
-        "disambiguated-organization-identifier": "https://ror.org/02y72wh86",
+        "disambiguated-organization-identifier": "https://ror.org/02fa3aq29",
         "disambiguation-source": "ROR"
       }
     }

@@ -76,7 +76,7 @@ export default function UploadForm() {
                     rows={10}
                     placeholder="Paste your verifiable credential here."
                     defaultValue={credential}
-                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+                    className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 bg-gray-50 placeholder:text-blue-500 text-black"
                     aria-describedby="vcTest-error"
                   />
                 </div>
@@ -144,7 +144,7 @@ export default function UploadForm() {
           Login to your ORCID account to confirm.
           <br /><br />
           <div className="mt-2 md:mt-6 flex justify-center md:gap-4">
-            <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" onClick={() => { state.success = false; setSuccess(!success) }}>Cancel</Button>
+            <Button className="bg-[#429EA6] hover:bg-gray-200 text-gray-900" onClick={() => { state.success = false; setSuccess(!success) }}>Submit Another</Button>
           </div>
         </div>
       }
