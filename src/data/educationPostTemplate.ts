@@ -16,14 +16,14 @@
     // this will come from a registry
     console.log(issuerId)
     return {
-      "name": "Queen's University",
+      "name": "McMaster University",
       "address": {
-        "city": "Kingston",
+        "city": "Hamilton",
         "region": "Ontario",
         "country": "CA"
       },
       "disambiguated-organization": {
-        "disambiguated-organization-identifier": "https://ror.org/02y72wh86",
+        "disambiguated-organization-identifier": "https://ror.org/02fa3aq29",
         "disambiguation-source": "ROR"
       }
     }
